@@ -76,7 +76,6 @@ void *spiThread(void *arg0)
     GPIO_init();
     SPI_init();
     I2C_init();
-    //UART2_init();
 
     /* Configure the LED pin */
     GPIO_setConfig(CONFIG_GPIO_LED_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
@@ -85,11 +84,6 @@ void *spiThread(void *arg0)
     params.baudRate      = 115200;
     params.readMode = UART2_Mode_BLOCKING;
     params.writeMode = UART2_Mode_BLOCKING;
-//    params.writeDataMode = UART_DATA_BINARY;
-//    params.readDataMode  = UART_DATA_BINARY;
-//    params.readEcho      = UART_ECHO_OFF;
-//    params.readTimeout   = 100000;//1s
-//    params.writeTimeout   = 1000000;//10s
 
     uartHandle = UART2_open(CONFIG_UART2_0, &params);
     if (!uartHandle)
@@ -97,16 +91,6 @@ void *spiThread(void *arg0)
         while (1);
     }
 
-//    Power_init();
-//    Power_setDependency(PowerCC32XX_PERIPH_I2CA0);
-//    Power_setDependency(PowerCC32XX_PERIPH_SSPI);
-//    Power_setDependency(PowerCC32XX_PERIPH_UARTA0);
-//    Power_setDependency(PowerCC32XX_PERIPH_UARTA1);
-//    Power_setDependency(PowerCC32XX_PERIPH_UDMA);
-//    Power_setDependency(PowerCC32XX_PERIPH_GSPI);
-//    Power_setDependency(PowerCC32XX_PERIPH_LSPI);
-//
-//    Power_setConstraint(PowerCC32XX_DISALLOW_LPDS);
     Power_setConstraint(PowerLPF3_DISALLOW_STANDBY);
 
     /* Configure the LED pins */
@@ -118,15 +102,10 @@ void *spiThread(void *arg0)
 
     GPIO_write(CONFIG_GPIO_LED_0, CONFIG_GPIO_LED_ON);
 
-    // sleep(5000);
     GPIO_write(CONFIG_GPIO_LED_0, CONFIG_GPIO_LED_OFF);
-
-
-//    test();
 
     uint8_t notready;
 
-    //Take only 1 image for current testing
      while (1) {
         GPIO_write(CONFIG_GPIO_LED_1, CONFIG_GPIO_LED_ON);
         Arducam_start_capture();
@@ -139,7 +118,6 @@ void *spiThread(void *arg0)
             }
         }
         Arducam_read_image();
-//        Arducam_init();//aubaida
     }
 }
 /*

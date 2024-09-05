@@ -106,7 +106,6 @@ uint8_t wrSensorReg8_8(uint8_t regID, uint8_t regDat) {
 
     transferOK = I2C_transfer(i2c, &i2cTransaction);
     if (!transferOK) {
-        //Display_printf(display, 0, 0, "Unsuccessful I2C write");
         return 1;
     }
     return 0;
@@ -122,7 +121,6 @@ uint16_t wrSensorRegs8_8(struct sensor_reg arr[]) {
     i2cTransaction.writeCount = 2;
     i2cTransaction.writeBuf = txBuffer;
     i2cTransaction.readCount = 0;
-    // uint16_t len = sizeof(arr);
 
     while ((arr[i].reg != 0xff) | (arr[i].val != 0xff)) {
         txBuffer[0] = (uint8_t) arr[i].reg;
@@ -130,7 +128,6 @@ uint16_t wrSensorRegs8_8(struct sensor_reg arr[]) {
 
         transferOK = I2C_transfer(i2c, &i2cTransaction);
         if (!transferOK) {
-            //Display_printf(display, 0, 0, "Unsuccessful I2C write array");
             return 1;
         }
         i++;
@@ -152,7 +149,6 @@ uint8_t rdSensorReg8_8(uint8_t regID, uint8_t* regDat) {
 
     transferOK = I2C_transfer(i2c, &i2cTransaction);
     if (!transferOK) {
-       // Display_printf(display, 0, 0, "Unsuccessful I2C read");
         return 1;
     }
     *regDat = rxBuffer[0];
@@ -196,7 +192,6 @@ void OV2640_set_JPEG_size(uint8_t size) {
     }
 
     if (failed) {
-       // Display_printf(display, 0, 0, "Set JPEG size failed.");
         while(1);
     }
 }
@@ -282,7 +277,6 @@ uint8_t read_reg(uint8_t addr) {
     transferOK = SPI_transfer(spi, &transaction);
     GPIO_write(CONFIG_SPI_CS, HIGH);
     if (!transferOK) {
-        //Display_printf(display, 0, 0, "Unsuccessful SPI read reg");
     }
 
     return rxBuffer[1];
@@ -304,7 +298,6 @@ void write_reg(uint8_t addr, uint8_t data) {
     transferOK = SPI_transfer(spi, &transaction);
     GPIO_write(CONFIG_SPI_CS, HIGH);
     if (!transferOK) {
-        //Display_printf(display, 0, 0, "Unsuccessful SPI write reg");
     }
 
 }
@@ -321,9 +314,6 @@ void InitCAM() {
         failed |= wrSensorRegs8_8(OV2640_JPEG);
         failed |= wrSensorReg8_8(0xff, 0x01);
         failed |= wrSensorReg8_8(0x15, 0x00);
-        //wrSensorRegs8_8(OV2640_320x240_JPEG);
-        //wrSensorReg8_8(0xff, 0x00);
-        //wrSensorReg8_8(0x44, 0x32);
     }
     else {
         failed |= wrSensorRegs8_8(OV2640_QVGA);
@@ -594,7 +584,6 @@ uint32_t Arducam_read_image(void) {
            }
 #endif
         }
-        // sleep(5);
     }
 
     GPIO_write(CONFIG_SPI_CS, HIGH);
